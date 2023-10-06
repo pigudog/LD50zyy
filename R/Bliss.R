@@ -1,9 +1,11 @@
 #' @title calculate LC/LC
 #' @description
 #' Used for control. If death rate in control group < 0.05, no correction is needed;
-#' if death rate between 0.05 - 0.2, using Abbott fomula to adjust the assay;
+#' if death rate between 0.05 ~ 0.2, using Abbott fomula to adjust the assay;
 #' if death rate > 0.2, invalid assay. Program will stop! Private function in LD50 package.
+#' the adjust column you can simply recognised as the death rate
 #' @param df A dataframe with three variables(concentration/dose, death, total), the first observation is control.
+#'
 #' @export
 ctl <- function(df){
   if(df[1,4] < 0.05){
@@ -25,8 +27,10 @@ ctl <- function(df){
 #' LDx is used to infer LD50 and corresponding CI.
 #' For private use in package LD50.
 #' @import MASS
+#'
 #' @param fit.model a object of glm model
 #' @param x which death rate, eg, LD50 -> x = 0.5
+#'
 #' @export
 LDx <- function(fit.model, x){
   mm <- dose.p(fit.model, p = x)
@@ -40,13 +44,14 @@ LDx <- function(fit.model, x){
 #' If death rate in control group < 0.05, no correction is needed;
 #' if death rate between 0.05 - 0.2, using Abbott fomula to adjust the assay;
 #' if death rate > 0.2, invalid assay. Program will stop!
+#'
 #' @param dfr A dataframe with three variables(concentration/dose, death, total), make sure the first observation(row) is control.
+#'
 #' @import stats
 #' @export
 #' @examples
-#' aa <- data.frame('con' = c(0,0.01,0.02,0.04,0.08,0.16,0.32),
-#' 'death' = c(1,6,16,23,25,34,44), 'total' = c(60,59,60,60,57,58,60))
-#' LD_cal(aa)
+#' test_data = data.frame('con' = c(110.8,147.7,196.9,262.5,350.0),'death' = c(0,5,6,8,10), 'total' = c(10,10,10,10,10))
+#' LD_cal(test_data)
 #'
 LD_cal <- function(dfr){
   dfr$death_rate <- dfr[,2]/dfr[,3]
