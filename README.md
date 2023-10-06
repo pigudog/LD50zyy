@@ -7,6 +7,8 @@ tags:
   - R
 date: 2023-10-05
 ---
+# Intro
+This R package is used to calculate LD50
 # Download
 You can install the latest version of LD50zyy from GitHub with:
 
